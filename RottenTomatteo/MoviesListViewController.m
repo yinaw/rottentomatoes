@@ -12,10 +12,11 @@
 #import "UIImageView+AFNetworking.h"
 #import "MovieDetailController.h"
 
-@interface MoviesListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MoviesListViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movies;
 @property (nonatomic, strong) UIRefreshControl *refreshController;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchMovies;
 
 @end
 
@@ -25,6 +26,8 @@
     [super viewDidLoad];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    
+    self.searchMovies.delegate = self;
     
     self.refreshController = [[UIRefreshControl alloc] init];
     [self.refreshController addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
@@ -102,6 +105,18 @@
 
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [self.view endEditing:YES];
+    [self sendAPIrequest];
+
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    if ([searchBar.text isEqualToString:@""]) {
+        [self.view endEditing:YES];
+        [self sendAPIrequest];
+    }
+}
 /*
 #pragma mark - Navigation
 
