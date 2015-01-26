@@ -8,6 +8,9 @@
 
 #import "MoviesListViewController.h"
 #import "SVProgressHUD.h"
+#import "MovieCellTableViewCell.h"
+#import "UIImageView+AFNetworking.h"
+#import "MovieDetailController.h"
 
 @interface MoviesListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -29,6 +32,11 @@
     tvc.tableView = self.tableView;
     tvc.refreshControl = self.refreshController;
     [self addChildViewController:tvc];
+    
+    //register Tabel Cell View;
+    
+    UINib *cellNib = [UINib nibWithNibName:@"MovieCellTableViewCell" bundle:nil];
+    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"CustomCell"];
     
     [self sendAPIrequest];
 }
@@ -68,12 +76,29 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return self.movies.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    MovieCellTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CustomCell" forIndexPath:indexPath];
+    
+    NSDictionary *movie = self.movies[indexPath.row];
+    
+    cell.titleLable.text = movie[@"title"];
+    cell.synopsisLabel.text = movie[@"synopsis"];
+    NSString *urlString = [movie valueForKeyPath:@"posters.thumbnail"];
+    [cell.movieImage setImageWithURL:[NSURL URLWithString:urlString]];
+    
     return cell;
+
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSLog(@"row clicked");
+    MovieDetailController *vc = [[MovieDetailController alloc] init];
+    vc.movie = self.movies[indexPath.row];
+    [self.navigationController pushViewController:vc animated:YES];
 
 }
 
