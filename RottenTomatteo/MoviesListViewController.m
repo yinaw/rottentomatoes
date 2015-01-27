@@ -48,8 +48,14 @@
     [self sendAPIrequest];
 }
 
-- (void)sendAPIrequest{
+- (void)sendAPIrequest {
     NSURL *url = [NSURL URLWithString:@"http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=dagqdghwaq3e3mxyrp7kmmj5&limit=20&country=us"];
+    
+    if([self.searchMovies.text length] > 0){
+        
+        NSString *query = [NSString stringWithFormat:@"http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=dagqdghwaq3e3mxyrp7kmmj5&limit=20&country=us&q=%@", self.searchMovies.text];
+         url = [NSURL URLWithString:query];
+    }
     self.tableView.rowHeight = 100;
     [SVProgressHUD show];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -67,6 +73,7 @@
             [self.tableView reloadData];
             [self.refreshController endRefreshing];
             [SVProgressHUD dismiss];
+            [self.view endEditing:YES];
         }
         
     }];
@@ -106,7 +113,6 @@
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    [self.view endEditing:YES];
     [self sendAPIrequest];
 
 }
