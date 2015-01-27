@@ -24,13 +24,26 @@
                     <searchBar key="tableHeaderView" contentMode="redraw" id="v66-Bn-E5e">
                         <rect key="frame" x="0.0" y="30" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <gestureRecognizers/>
                         <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="0iE-Nv-S8P" appends="YES" id="EcH-2b-Ys5"/>
+                        </connections>
                     </searchBar>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="0iE-Nv-S8P" appends="YES" id="sDR-OZ-o13"/>
+            </connections>
             <point key="canvasLocation" x="410" y="379"/>
         </view>
+        <tapGestureRecognizer cancelsTouchesInView="NO" id="0iE-Nv-S8P">
+            <connections>
+                <action selector="onTap:" destination="-1" id="jdG-O4-tIJ"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

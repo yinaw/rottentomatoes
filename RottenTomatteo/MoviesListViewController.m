@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSArray *movies;
 @property (nonatomic, strong) UIRefreshControl *refreshController;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchMovies;
+- (IBAction)onTap:(id)sender;
 
 @end
 
@@ -73,7 +74,7 @@
             [self.tableView reloadData];
             [self.refreshController endRefreshing];
             [SVProgressHUD dismiss];
-            [self.view endEditing:YES];
+            //[self.view endEditing:YES];
         }
         
     }];
@@ -119,7 +120,6 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     if ([searchBar.text isEqualToString:@""]) {
-        [self.view endEditing:YES];
         [self sendAPIrequest];
     }
 }
@@ -133,4 +133,7 @@
 }
 */
 
+- (IBAction)onTap:(id)sender {
+    [self.view endEditing:YES];
+}
 @end
